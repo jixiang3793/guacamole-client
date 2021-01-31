@@ -1,0 +1,7 @@
+@values: left, right, center, justify;
+
+each(@values, {
+  .text-@{value} {
+    text-align: @value;
+  }
+});
