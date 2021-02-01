@@ -5,7 +5,6 @@ import { notification } from 'antd';
 import type { RequestConfig, RunTimeLayoutConfig } from 'umi';
 import { history } from 'umi';
 import RightContent from '@/components/RightContent';
-import Footer from '@/components/Footer';
 import type { ResponseError } from 'umi-request';
 import { queryCurrent } from './services/user';
 
@@ -57,7 +56,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState }) => {
     },
     menuRender: false,
     footerRender: false,
-    pageTitleRender:false,
+    pageTitleRender: false,
     menuHeaderRender: undefined,
     // 自定义 403 页面
     // unAccessible: <div>unAccessible</div>,

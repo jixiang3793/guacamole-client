@@ -48,8 +48,16 @@ const Login: React.FC = () => {
   const intl = useIntl();
 
   const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
-    // const userInfo = {};
+    // const userInfo = await initialState?.fetchUserInfo?.();
+    const userInfo: any = {
+      name: 'admin',
+      userid: '00000001',
+      title: '交互专家',
+      notifyCount: 12,
+      unreadCount: 11,
+      country: 'China',
+      access: 'admin',
+    };
     if (userInfo) {
       setInitialState({
         ...initialState,
@@ -62,7 +70,10 @@ const Login: React.FC = () => {
     setSubmitting(true);
     try {
       // 登录
-      const msg = await fakeAccountLogin({ ...values, type });
+      let msg: API.LoginStateType = { status: 'error', type: 'account', currentAuthority: 'guest' };
+      if (values.username === 'admin' && values.password === 'admin') {
+        msg = { status: 'ok', type: 'account', currentAuthority: 'admin' };
+      }
       if (msg.status === 'ok') {
         message.success('登录成功！');
         await fetchUserInfo();
@@ -82,8 +93,7 @@ const Login: React.FC = () => {
     <div className={styles.container}>
       <div className={styles.lang}>{SelectLang && <SelectLang />}</div>
       <div className={styles.content}>
-        <div className={styles.top}>
-        </div>
+        <div className={styles.top}></div>
 
         <div className={styles.main}>
           <ProForm

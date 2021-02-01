@@ -33,7 +33,7 @@ const GlobalHeaderRight: React.FC = () => {
       <HeaderSearch
         className={`${styles.action} ${styles.search}`}
         placeholder="站内搜索"
-        defaultValue="umi ui"
+        defaultValue="ssh"
         options={[
           { label: <a href="https://umijs.org/zh/guide/umi-ui.html">umi ui</a>, value: 'umi ui' },
           {
@@ -58,17 +58,24 @@ const GlobalHeaderRight: React.FC = () => {
           <Menu>
             <Menu.Item
               onClick={() => {
-                window.open('/~docs');
+                window.open('http://guacamole.apache.org/doc/gug/');
               }}
             >
-              组件文档
+              guacamole
             </Menu.Item>
             <Menu.Item
               onClick={() => {
-                window.open('https://pro.ant.design/docs/getting-started');
+                window.open('https://github.com/jixiang3793/guacamole-docker');
               }}
             >
-              Ant Design Pro 文档
+              guacamole-docker
+            </Menu.Item>
+            <Menu.Item
+              onClick={() => {
+                window.open('https://github.com/jixiang3793/guacamole-client');
+              }}
+            >
+              guacamole-client
             </Menu.Item>
           </Menu>
         }
