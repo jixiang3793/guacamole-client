@@ -34,26 +34,16 @@ public class DummyGuacamoleTunnelServlet extends GuacamoleHTTPTunnelServlet {
     @Override
     protected GuacamoleTunnel doConnect(HttpServletRequest request) throws GuacamoleException {
 
-        // guacd connection information
-//        String hostname = "localhost";
-//        int port = 4822;
-//
-//        // VNC connection information
-//        GuacamoleConfiguration config = new GuacamoleConfiguration();
-//        config.setProtocol("vnc");
-//        config.setParameter("hostname", "localhost");
-//        config.setParameter("port", "5901");
-//        config.setParameter("password", "potato");
-
         String hostname = "localhost"; //guacamole server地址
         int port = 4822; //guacamole server端口
         GuacamoleConfiguration configuration = new GuacamoleConfiguration();
-        configuration.setProtocol("rdp"); // 远程连接协议
-        configuration.setParameter("hostname", "192.168.1.114");
-        configuration.setParameter("port", "3389");
-        configuration.setParameter("username", "Lian-PC");
-        configuration.setParameter("password", "1");
-        configuration.setParameter("ignore-cert", "true");
+
+        configuration.setProtocol(request.getHeader("protocol")); // 远程连接协议
+        configuration.setParameter("hostname", request.getHeader("hostname"));
+        configuration.setParameter("port", request.getHeader("port"));
+        configuration.setParameter("username", request.getHeader("username"));
+        configuration.setParameter("password", request.getHeader("password"));
+        configuration.setParameter("ignore-cert", request.getHeader("ignoreCert"));
 
         // Connect to guacd, proxying a connection to the VNC server above
         GuacamoleSocket socket = new ConfiguredGuacamoleSocket(

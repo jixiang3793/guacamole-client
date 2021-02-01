@@ -5,7 +5,7 @@ export function connect(params: IHostEntity) {
   const display = document.getElementById('display');
 
   // Instantiate client, using an HTTP tunnel for communications.
-  var guac = new Guacamole.Client(new Guacamole.HTTPTunnel('tunnel'));
+  var guac = new Guacamole.Client(new Guacamole.HTTPTunnel('tunnel',false,params));
 
   // Add client to display div
   display!.appendChild(guac.getDisplay().getElement());
