@@ -3,6 +3,7 @@ import { IHostEntity } from './Welcome.interface';
 
 export function connect(params: IHostEntity) {
   const display = document.getElementById('display');
+  display?.childNodes.forEach(node => display?.removeChild(node));
 
   // Instantiate client, using an HTTP tunnel for communications.
   var guac = new Guacamole.Client(new Guacamole.HTTPTunnel('tunnel',false,params));
@@ -12,7 +13,8 @@ export function connect(params: IHostEntity) {
 
   // Error handler
   guac.onerror = function (error: any) {
-    alert(error);
+    console.error("Guacamole client error is ...",error);
+    guac.disconnect();
   };
 
   // Connect
@@ -40,4 +42,5 @@ export function connect(params: IHostEntity) {
   keyboard.onkeyup = function (keysym: any) {
     guac.sendKeyEvent(0, keysym);
   };
+  return guac;
 }

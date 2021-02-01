@@ -17,6 +17,7 @@ import { IHostCategory, IProtocolForm, IHostEntity } from './Welcome.interface';
 import { protocolForms } from './Welcome.config';
 import db from '@/services/welcome.db';
 import { useLiveQuery } from 'dexie-react-hooks';
+import { connect } from './guacamole';
 
 export default () => {
   const intl = useIntl();
@@ -28,6 +29,7 @@ export default () => {
   const [selectedCategoryId, setSelectedCategoryId] = useState<string | number>('all');
   const [selectedCategoryKeys, setSelectedKeys] = useState<string[]>(['all']);
   const [formlist, setformlist] = useState<IProtocolForm[]>([]);
+  const [guac, setGuac] = useState<any>({});
   const clist = useLiveQuery(async () => {
     let datas = await db.categorys.toArray();
     console.log('datas ...', datas.unshift({ name: '全部主机', id: 'all' }));
@@ -39,11 +41,13 @@ export default () => {
     return datas;
   });
 
-  const connect = (host: IHostEntity) => {
+  const connectHost = (host: IHostEntity) => {
     console.log('connect host is ...', host);
     setCurrentHost(host);
     setHostConnectVisible(true);
-    connect(host);
+    setTimeout(() => {
+      setGuac(connect(host));
+    }, 1000);
   };
 
   function deletecategory() {
@@ -53,8 +57,16 @@ export default () => {
     }
   }
 
+  const genThumbnail = () => {
+    const canvas = document.querySelector("#display canvas") as HTMLCanvasElement;
+    const image = canvas.toDataURL('image/jpeg');
+    db.hosts.update(currentHost.id as any,{thumbnail: image});
+  };
+
   const hideHostConnect = () => {
+    genThumbnail();
     setHostConnectVisible(false);
+    guac.disconnect();
   };
   const clistdom = clist
     ? clist.map((it) => (
@@ -164,15 +176,16 @@ export default () => {
                         className={styles.card}
                         cover={
                           <img
-                            alt="example"
-                            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                            alt="image"
+                            src={item.thumbnail}
                           />
                         }
                         actions={[
                           <a
                             key="option1"
                             onClick={() => {
-                              connect(item);
+                              connectHost(item);
+                              // console.log("do connect ...");
                             }}
                           >
                             连接
@@ -291,6 +304,10 @@ export default () => {
         onOk={hideHostConnect}
         onCancel={hideHostConnect}
         footer={null}
+        maskClosable={false}
+        width="1100px"
+        destroyOnClose={true}
+        centered={true}
       >
         <div id="display"></div>
       </Modal>
