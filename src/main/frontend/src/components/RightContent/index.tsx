@@ -30,7 +30,7 @@ const GlobalHeaderRight: React.FC = () => {
   }
   return (
     <Space className={className}>
-      <HeaderSearch
+      {/* <HeaderSearch
         className={`${styles.action} ${styles.search}`}
         placeholder="站内搜索"
         defaultValue="ssh"
@@ -52,7 +52,7 @@ const GlobalHeaderRight: React.FC = () => {
         // onSearch={value => {
         //   console.log('input', value);
         // }}
-      />
+      /> */}
       <HeaderDropdown
         overlay={
           <Menu>

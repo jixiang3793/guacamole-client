@@ -19,12 +19,26 @@ export async function getInitialState(): Promise<{
   fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
 }> {
   const fetchUserInfo = async () => {
-    try {
-      const currentUser = await queryCurrent();
-      return currentUser;
-    } catch (error) {
-      history.push('/user/login');
-    }
+    // try {
+      // const currentUser = await queryCurrent();
+      const access = sessionStorage.getItem("access");
+      if (access) {
+        return {
+          name: 'admin',
+          userid: '00000001',
+          title: '交互专家',
+          notifyCount: 12,
+          unreadCount: 11,
+          country: 'China',
+          access: 'admin',
+        } as API.CurrentUser;
+      } else {
+        history.push('/user/login');
+      }
+    //   return currentUser;
+    // } catch (error) {
+      
+    // }
     return undefined;
   };
   // 如果是登录页面，不执行

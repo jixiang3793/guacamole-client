@@ -62,4 +62,10 @@ export default {
   'pages.searchTable.tenThousand': '万',
   'pages.searchTable.batchDeletion': '批量删除',
   'pages.searchTable.batchApproval': '批量审批',
+  'pages.welcome.createForm.newCategory': '新增分类',
+  'pages.welcome.createForm.newRule':'新增主机',
+  'pages.welcome.hostname': '主机IP',
+  'pages.welcome.username': '用户名',
+  'pages.welcome.password': '密码',
+  'pages.welcome.name': '主机名称',
 };

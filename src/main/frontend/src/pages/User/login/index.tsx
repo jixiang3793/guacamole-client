@@ -58,6 +58,7 @@ const Login: React.FC = () => {
       country: 'China',
       access: 'admin',
     };
+    sessionStorage.setItem("access","admin");
     if (userInfo) {
       setInitialState({
         ...initialState,

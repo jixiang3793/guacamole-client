@@ -18,6 +18,7 @@ import { protocolForms } from './Welcome.config';
 import db from '@/services/welcome.db';
 import { useLiveQuery } from 'dexie-react-hooks';
 import { connect } from './guacamole';
+import { Skeleton } from 'antd';
 
 export default () => {
   const intl = useIntl();
@@ -60,7 +61,9 @@ export default () => {
   const genThumbnail = () => {
     const canvas = document.querySelector("#display canvas") as HTMLCanvasElement;
     const image = canvas.toDataURL('image/jpeg');
-    db.hosts.update(currentHost.id as any,{thumbnail: image});
+    if (image.split(',')[1]) {
+      db.hosts.update(currentHost.id as any,{thumbnail: image});
+    }
   };
 
   const hideHostConnect = () => {
@@ -85,12 +88,13 @@ export default () => {
     if (item.type === 'number') {
       return (
         // <List.Item key={item.name}>
-        <ProFormDigit
+        <ProFormDigit key={item.name}
           label={item.message}
           name={item.name}
           min={1}
           max={65536}
-          fieldProps={{ precision: 0, defaultValue: item.defaultValue }}
+          initialValue={item.defaultValue}
+          fieldProps={{ precision: 0 }}
           rules={[{ required: item.required, message: item.message }]}
         />
         // </List.Item>
@@ -98,12 +102,12 @@ export default () => {
     } else if (item.type === 'switch') {
       return (
         // <List.Item key={item.name}>
-        <ProFormSwitch name={item.name} label={item.message} />
+        <ProFormSwitch key={item.name} name={item.name} label={item.message} initialValue={item.defaultValue} />
         // </List.Item>
       );
     } else {
       return (
-        <ProFormText
+        <ProFormText key={item.name}
           rules={[
             {
               required: item.required,
@@ -225,6 +229,7 @@ export default () => {
       </ProCard>
 
       <ModalForm
+      modalProps={{destroyOnClose:true}} 
         title={intl.formatMessage({
           id: 'pages.welcome.createForm.newRule',
           defaultMessage: '新增主机',
@@ -268,8 +273,9 @@ export default () => {
         {formlistdom}
       </ModalForm>
       <ModalForm
+        modalProps={{destroyOnClose:true}} 
         title={intl.formatMessage({
-          id: 'pages.welcome.createForm.newRule',
+          id: 'pages.welcome.createForm.newCategory',
           defaultMessage: '新增分类',
         })}
         width="400px"
@@ -309,7 +315,9 @@ export default () => {
         destroyOnClose={true}
         centered={true}
       >
-        <div id="display"></div>
+        <div id="display">
+          <Skeleton />
+        </div>
       </Modal>
     </ProCard>
   );

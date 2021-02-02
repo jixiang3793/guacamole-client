@@ -1,14 +1,15 @@
 import Guacamole from 'guacamole-common-js';
 import { IHostEntity } from './Welcome.interface';
 
-export function connect(params: IHostEntity) {
+export function connect(host: IHostEntity) {
   const display = document.getElementById('display');
-  display?.childNodes.forEach(node => display?.removeChild(node));
-
+  const params = {...host};
+  delete params.thumbnail;
   // Instantiate client, using an HTTP tunnel for communications.
   var guac = new Guacamole.Client(new Guacamole.HTTPTunnel('tunnel',false,params));
 
   // Add client to display div
+  display?.childNodes.forEach(node => display?.removeChild(node));
   display!.appendChild(guac.getDisplay().getElement());
 
   // Error handler
