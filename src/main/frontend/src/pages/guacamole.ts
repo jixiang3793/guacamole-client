@@ -43,5 +43,17 @@ export function connect(host: IHostEntity) {
   keyboard.onkeyup = function (keysym: any) {
     guac.sendKeyEvent(0, keysym);
   };
+
+  guac.onclipboard = function (stream: any, mimetype: string) {
+    console.log("onclipboard ...",stream, mimetype);
+    stream.onblob = function (data: any) {
+      const stringdata = atob(data);
+      console.log("data blob ...",stringdata);
+      navigator.clipboard.writeText(stringdata).catch(() => {
+        console.error("clipboard write error ...");
+      })
+    }
+  }
+  
   return guac;
 }
