@@ -27,15 +27,21 @@ import org.apache.guacamole.net.SimpleGuacamoleTunnel;
 import org.apache.guacamole.protocol.ConfiguredGuacamoleSocket;
 import org.apache.guacamole.protocol.GuacamoleConfiguration;
 import org.apache.guacamole.servlet.GuacamoleHTTPTunnelServlet;
+import org.springframework.beans.factory.annotation.Value;
 
 @WebServlet(urlPatterns = "/tunnel")
 public class DummyGuacamoleTunnelServlet extends GuacamoleHTTPTunnelServlet {
 
+    @Value("${guacamole.server}")
+    String guacdHost; //guacamole server address
+
+    int guacdPort = 4822; //guacamole server port
+
     @Override
     protected GuacamoleTunnel doConnect(HttpServletRequest request) throws GuacamoleException {
 
-        String hostname = "localhost"; //guacamole server地址
-        int port = 4822; //guacamole server端口
+
+
         GuacamoleConfiguration configuration = new GuacamoleConfiguration();
 
         configuration.setProtocol(request.getHeader("protocol")); // 远程连接协议
@@ -47,7 +53,7 @@ public class DummyGuacamoleTunnelServlet extends GuacamoleHTTPTunnelServlet {
 
         // Connect to guacd, proxying a connection to the VNC server above
         GuacamoleSocket socket = new ConfiguredGuacamoleSocket(
-                new InetGuacamoleSocket(hostname, port),
+                new InetGuacamoleSocket(guacdHost, guacdPort),
                 configuration
         );
 

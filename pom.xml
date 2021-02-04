@@ -13,9 +13,6 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>client</name>
     <description>hezhi guacamole client</description>
-    <properties>
-        <java.version>11</java.version>
-    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
