@@ -33,6 +33,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: hezhi/guacamole-client:latest
+          tags: jixiang255/guacamole-client:latest
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
