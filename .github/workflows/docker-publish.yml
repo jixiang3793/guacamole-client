@@ -31,6 +31,7 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
+          context: .
           push: true
           tags: hezhi/guacamole-client:latest
       - name: Image digest
